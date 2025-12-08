@@ -1,0 +1,55 @@
+/* Hiệu ứng navbar */
+.custom-navbar {
+  transition: all 0.3s ease;
+}
+
+.custom-navbar .nav-link-custom {
+  color: #198754;
+  font-weight: 500;
+  margin: 0 8px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.custom-navbar .nav-link-custom:hover {
+  color: #0a5c36;
+}
+
+.custom-navbar .nav-link-custom::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #198754;
+  transition: width 0.3s ease;
+}
+
+.custom-navbar .nav-link-custom:hover::after {
+  width: 100%;
+}
+
+/* Hiệu ứng nút giỏ hàng và mua ngay */
+.custom-btn {
+  font-weight: 600;
+  padding: 8px 18px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.custom-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .custom-navbar .nav-link-custom {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .custom-btn {
+    width: 100%;
+  }
+}

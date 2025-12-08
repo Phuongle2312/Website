@@ -1,0 +1,38 @@
+.contact-card {
+  transition: all 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+form input,
+form textarea {
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+form input:focus,
+form textarea:focus {
+  border-color: #198754;
+  box-shadow: 0 0 0 0.15rem rgba(25, 135, 84, 0.25);
+}
+.contact-cta {
+  background: linear-gradient(90deg, #198754, #2ecc71);
+  transition: all 0.3s ease;
+}
+.contact-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+.contact-cta h2 {
+  font-size: 1.8rem;
+}
+.contact-cta .btn {
+  border-radius: 30px;
+  transition: 0.3s;
+}
+.contact-cta .btn:hover {
+  transform: scale(1.05);
+}
