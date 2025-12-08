@@ -2,7 +2,7 @@ import "./Product.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import products from "../data/Productdata.json";
+import { getProducts } from "../services/api";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,15 +10,38 @@ import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
+
 const ProductList = () => {
+  const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [darkMode, setDarkMode] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { addToCart } = useContext(CartContext);
 
   // Khởi tạo hiệu ứng AOS
   useEffect(() => {
     Aos.init({ duration: 700, easing: "ease-in-out" });
+  }, []);
+
+  // Fetch products from API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const data = await getProducts();
+        setProducts(data);
+        setError(null);
+      } catch (err) {
+        setError("Không thể tải danh sách sản phẩm. Vui lòng thử lại sau.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   // Lọc sản phẩm theo từ khóa
@@ -79,7 +102,25 @@ const ProductList = () => {
           />
         </motion.div>
 
+        {/* Loading State */}
+        {loading && (
+          <div className="text-center my-5">
+            <div className="spinner-border text-success" role="status">
+              <span className="visually-hidden">Đang tải...</span>
+            </div>
+            <p className="mt-3 text-muted">Đang tải sản phẩm...</p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="alert alert-danger text-center" role="alert">
+            ⚠️ {error}
+          </div>
+        )}
+
         {/* Danh sách sản phẩm */}
+        {!loading && !error && (
         <div className="row g-4 justify-content-center">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
@@ -148,6 +189,7 @@ const ProductList = () => {
             </h5>
           )}
         </div>
+        )}
       </div>
 
       <ToastContainer />

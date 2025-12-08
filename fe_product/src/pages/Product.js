@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from "react"; // Thêm useState, useEffect
+import React, { useContext, useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-// import productData from "../data/Productdata.json"; // XÓA dòng này
+import { getProductById } from "../services/api";
 import { CartContext } from "../context/CartContext";
 import { Row, Col, Card, Button, Table, Badge } from "react-bootstrap";
 import "./Product.css";
@@ -10,23 +10,39 @@ const Product = () => {
   const navigate = useNavigate();
   const { addToCart } = useContext(CartContext);
 
-  // 1. Khởi tạo State để lưu dữ liệu lấy từ API
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // 2. Gọi API khi component được load
+  // Fetch product from API
   useEffect(() => {
-    fetch(`http://localhost:5000/api/products/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        const data = await getProductById(id);
         setProduct(data);
+        setError(null);
+      } catch (err) {
+        setError("Không thể tải thông tin sản phẩm.");
+        console.error("Lỗi kết nối:", err);
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => console.error("Lỗi kết nối:", err));
+      }
+    };
+
+    fetchProduct();
   }, [id]);
 
   if (loading)
     return <h2 className="text-center mt-5">⏳ Đang tải dữ liệu...</h2>;
+
+  if (error) {
+    return (
+      <h2 className="text-center text-danger mt-5">
+        ❌ {error}
+      </h2>
+    );
+  }
 
   if (!product) {
     return (
@@ -36,10 +52,6 @@ const Product = () => {
     );
   }
 
-  // Lưu ý: Cần sửa lại các trường dữ liệu khớp với SQL (Ví dụ: image -> ImageURL)
-  // SQL trả về: ProductName, Price, ImageURL, Description
-
-  // Giả lập thông số kỹ thuật (Giữ nguyên hoặc cũng đưa vào Database nếu cần)
   const specs = [
     { label: "Màn hình", value: "OLED 6.7 inch, 120Hz" },
     { label: "Chip xử lý", value: "Snapdragon 8 Gen 3" },
@@ -61,10 +73,9 @@ const Product = () => {
       <Row className="g-4 align-items-center">
         <Col md={6} className="text-center">
           <Card className="border-0 shadow-sm rounded-4 p-3">
-            {/* Sửa product.image thành product.ImageURL theo SQL */}
             <img
-              src={product.ImageURL}
-              alt={product.ProductName}
+              src={product.image}
+              alt={product.name}
               className="img-fluid rounded-4 mb-3"
               style={{ maxHeight: "400px", objectFit: "contain" }}
             />
@@ -72,18 +83,13 @@ const Product = () => {
         </Col>
 
         <Col md={6}>
-          {/* Sửa product.name thành product.ProductName */}
-          <h2 className="fw-bold text-success">{product.ProductName}</h2>
+          <h2 className="fw-bold text-success">{product.name}</h2>
 
-          {/* Format lại giá tiền vì SQL trả về số */}
           <h4 className="text-danger fw-bold mb-2">
-            {new Intl.NumberFormat("vi-VN", {
-              style: "currency",
-              currency: "VND",
-            }).format(product.Price)}
+            {product.price}
           </h4>
 
-          <p className="text-muted">{product.Description}</p>
+          <p className="text-muted">{product.description}</p>
 
           {/* Các phần còn lại giữ nguyên */}
           <div className="d-flex gap-3 mt-4">
