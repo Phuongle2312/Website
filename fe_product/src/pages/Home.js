@@ -1,11 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col, Card } from "react-bootstrap";
-import productData from "../data/Productdata.json";
+import { getProducts } from "../services/api";
 import "./Home.css";
 
 const Home = () => {
-  const featuredProducts = productData.slice(0, 3);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch products from API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const data = await getProducts();
+        setProducts(data);
+        setError(null);
+      } catch (err) {
+        setError("Không thể tải sản phẩm. Vui lòng thử lại sau.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const featuredProducts = products.slice(0, 3);
 
   return (
     <>
@@ -68,6 +91,26 @@ const Home = () => {
           <h2 className="text-center fw-bold text-success mb-4">
             🔥 Sản phẩm nổi bật
           </h2>
+
+          {/* Loading State */}
+          {loading && (
+            <div className="text-center my-5">
+              <div className="spinner-border text-success" role="status">
+                <span className="visually-hidden">Đang tải...</span>
+              </div>
+              <p className="mt-3 text-muted">Đang tải sản phẩm...</p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <div className="alert alert-danger text-center" role="alert">
+              ⚠️ {error}
+            </div>
+          )}
+
+          {/* Products Display */}
+          {!loading && !error && (
           <Row>
             {featuredProducts.map((product) => (
               <Col md={4} key={product.id} className="mb-4">
@@ -99,6 +142,7 @@ const Home = () => {
               </Col>
             ))}
           </Row>
+          )}
           <div className="text-center mt-4">
             <Link to="/products" className="btn btn-outline-success px-4">
               Xem thêm sản phẩm →

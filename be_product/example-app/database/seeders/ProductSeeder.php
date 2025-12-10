@@ -46,9 +46,15 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Realme GT 8 Pro',
-                'image' => '/image/realme-gt8-pro-xanh-ngọc_1761059633.jpg.jpg',
+                'image' => '/image/realme-GT8Pro.jpg',
                 'price' => '14.990.000₫',
-                'description' => 'Realme GT 5 Pro với chip Snapdragon 8 Gen 5, màn hình AMOLED 6.7 inch, camera chính 50MP.'
+                'description' => 'Realme GT 8 Pro với chip Snapdragon 8 Gen 5, màn hình AMOLED 6.7 inch, camera chính 50MP.'
+            ],
+            [
+                'name' => 'Google Pixel 8 Pro',
+                'image' => '/image/oppo.jpg',
+                'price' => '29.990.000₫',
+                'description' => 'Google Pixel 8 Pro với chip Tensor G3, camera 50.'
             ]
         ];
 

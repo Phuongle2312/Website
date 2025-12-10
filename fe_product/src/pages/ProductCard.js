@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, Button, Row, Col, Image, Table, Alert } from "react-bootstrap";
 import { CartContext } from "../context/CartContext";
-import products from "../data/Productdata.json";
+
 
 const ProductCard = () => {
   const { cart, addToCart, removeFromCart } = useContext(CartContext);
