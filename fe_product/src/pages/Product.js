@@ -74,7 +74,7 @@ const Product = () => {
         <Col md={6} className="text-center">
           <Card className="border-0 shadow-sm rounded-4 p-3">
             <img
-              src={product.image}
+              src={product.image_url}
               alt={product.name}
               className="img-fluid rounded-4 mb-3"
               style={{ maxHeight: "400px", objectFit: "contain" }}

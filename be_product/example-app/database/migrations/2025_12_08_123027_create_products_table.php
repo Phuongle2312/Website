@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image');
+            $table->string('image_path')->nullable(); // Đường dẫn tương đối trong storage
             $table->string('price');
             $table->text('description');
             $table->timestamps();

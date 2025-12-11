@@ -44,4 +44,41 @@ export const searchProducts = async (query) => {
   }
 };
 
+// Authentication APIs
+export const register = async (userData) => {
+  const response = await api.post('/register', userData);
+  return response.data;
+};
+
+export const login = async (credentials) => {
+  const response = await api.post('/login', credentials);
+  return response.data;
+};
+
+export const logout = async () => {
+  const token = localStorage.getItem('token');
+  const response = await api.post('/logout', {}, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response.data;
+};
+
+export const getCurrentUser = async () => {
+  const token = localStorage.getItem('token');
+  const response = await api.get('/user', {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response.data;
+};
+
+export const forgotPassword = async (email) => {
+  const response = await api.post('/forgot-password', { email });
+  return response.data;
+};
+
+export const resetPassword = async (data) => {
+  const response = await api.post('/reset-password', data);
+  return response.data;
+};
+
 export default api;

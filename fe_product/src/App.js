@@ -9,29 +9,39 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import ProductCard from "./pages/ProductCard";
 import Checkout from "./pages/Checkout";
-import { CartProvider } from "./context/CartContext"; // Import CartContext
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import { CartProvider } from "./context/CartContext";
+import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
   return (
-    <CartProvider>
-      <div className="d-flex flex-column min-vh-100">
-        <Router>
-          <Navbar />
-          <main className="flex-grow-1">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/products" element={<ProductList />} />
-              <Route path="/product/:id" element={<Product />} />
-              <Route path="/product-card" element={<ProductCard />} />
-              <Route path="/checkout" element={<Checkout />} />
-            </Routes>
-          </main>
-          <Footer />
-        </Router>
-      </div>
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <div className="d-flex flex-column min-vh-100">
+          <Router>
+            <Navbar />
+            <main className="flex-grow-1">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/products" element={<ProductList />} />
+                <Route path="/product/:id" element={<Product />} />
+                <Route path="/product-card" element={<ProductCard />} />
+                <Route path="/checkout" element={<Checkout />} />
+              </Routes>
+            </main>
+            <Footer />
+          </Router>
+        </div>
+      </CartProvider>
+    </AuthProvider>
   );
 };
+
 export default App;

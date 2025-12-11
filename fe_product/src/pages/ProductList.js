@@ -134,7 +134,7 @@ const ProductList = () => {
                   {/* Ảnh sản phẩm */}
                   <div className="product-image-container position-relative overflow-hidden">
                     <img
-                      src={product.image}
+                      src={product.image_url}
                       alt={product.name}
                       className="img-fluid product-image rounded-top-4"
                     />
