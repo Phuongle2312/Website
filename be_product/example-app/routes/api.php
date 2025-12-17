@@ -6,6 +6,24 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordResetController;
 
+// Test route
+Route::get('/test', function() {
+    return response()->json(['message' => 'API is working!', 'timestamp' => now()]);
+});
+
+Route::post('/test-register', function(Request $request) {
+    try {
+        $user = \App\Models\User::create([
+            'name' => 'Test User',
+            'email' => 'test' . time() . '@example.com',
+            'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+        ]);
+        return response()->json(['success' => true, 'user' => $user]);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+    }
+});
+
 // Authentication routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

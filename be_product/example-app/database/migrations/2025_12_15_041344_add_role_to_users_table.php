@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->text('two_factor_secret')->after('password')->nullable();
-            $table->text('two_factor_recovery_codes')->after('two_factor_secret')->nullable();
-            $table->timestamp('two_factor_confirmed_at')->after('two_factor_recovery_codes')->nullable();
+            $table->enum('role', ['customer', 'admin'])->default('customer')->after('email');
+            $table->string('avatar_url', 500)->nullable()->after('address');
+            $table->date('date_of_birth')->nullable()->after('avatar_url');
+            $table->boolean('is_active')->default(true)->after('date_of_birth');
         });
     }
 
@@ -24,11 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn([
-                'two_factor_secret',
-                'two_factor_recovery_codes',
-                'two_factor_confirmed_at',
-            ]);
+            $table->dropColumn(['role', 'avatar_url', 'date_of_birth', 'is_active']);
         });
     }
 };
