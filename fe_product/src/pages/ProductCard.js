@@ -68,7 +68,7 @@ const ProductCard = () => {
                 <Card className="shadow-sm border-0 h-100 rounded-4">
                   <div className="text-center p-3 bg-light rounded-top-4">
                     <Image
-                      src={item.image}
+                      src={item.image_path}
                       alt={item.name}
                       fluid
                       style={{

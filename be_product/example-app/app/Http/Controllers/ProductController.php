@@ -12,7 +12,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        // Sử dụng DB query builder để tránh lỗi với relationships
+        $products = \DB::table('products')->get();
         return response()->json($products);
     }
 
@@ -29,7 +30,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::find($id);
+        $product = \DB::table('products')->where('id', $id)->first();
         
         if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);
@@ -45,8 +46,9 @@ class ProductController extends Controller
     {
         $query = $request->input('q', '');
         
-        $products = Product::where('name', 'LIKE', "%{$query}%")
-                          ->get();
+        $products = \DB::table('products')
+                      ->where('name', 'LIKE', "%{$query}%")
+                      ->get();
         
         return response()->json($products);
     }

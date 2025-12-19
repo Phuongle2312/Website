@@ -117,7 +117,7 @@ const Home = () => {
                 <Card className="product-card shadow-sm border-0 h-100 rounded-4">
                   <div className="product-image-container bg-light">
                     <img
-                      src={product.image_url}
+                      src={product.image_path}
                       alt={product.name}
                       className="product-image"
                     />
